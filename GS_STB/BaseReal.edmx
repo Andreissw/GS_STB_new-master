@@ -1,0 +1,2248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище FASModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "FAS.dbo.Ct_OperLog" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Ct_OperLog">
+          <Key>
+            <PropertyRef Name="TestResultID" />
+            <PropertyRef Name="StepDate" />
+          </Key>
+          <Property Name="PCBID" Type="int" />
+          <Property Name="LOTID" Type="int" />
+          <Property Name="StepID" Type="smallint" />
+          <Property Name="TestResultID" Type="tinyint" Nullable="false" />
+          <Property Name="StepDate" Type="datetime" Nullable="false" />
+          <Property Name="StepByID" Type="smallint" />
+          <Property Name="LineID" Type="tinyint" />
+          <Property Name="ErrorCodeID" Type="int" />
+          <Property Name="Descriptions" Type="nvarchar" MaxLength="250" />
+          <Property Name="SNID" Type="int" />
+        </EntityType>
+        <EntityType Name="Ct_StepScan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StepName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+          <Property Name="NumStep" Type="smallint" />
+          <Property Name="ModelType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FAS_App_ListForPC">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="App_ID" Type="smallint" Nullable="false" />
+          <Property Name="LineID" Type="tinyint" Nullable="false" />
+          <Property Name="StationID" Type="smallint" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CT_ScanStep" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_Applications">
+          <Key>
+            <PropertyRef Name="App_ID" />
+          </Key>
+          <Property Name="App_ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="App_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="App_Caption" Type="nvarchar" MaxLength="50" />
+          <Property Name="App_CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="App_Path" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="FAS_Breaks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LineID" Type="tinyint" Nullable="false" />
+          <Property Name="BreakNumber" Type="smallint" Nullable="false" />
+          <Property Name="StartBreak" Type="time" Precision="0" />
+          <Property Name="EndBreak" Type="time" Precision="0" />
+        </EntityType>
+        <EntityType Name="FAS_Bunch_Decode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PCBIDTOP" Type="int" />
+          <Property Name="PCBIDBOT" Type="int" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LOTID" Type="int" />
+          <Property Name="FASSNID" Type="int" />
+        </EntityType>
+        <EntityType Name="FAS_CERT">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="CERTName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="CertContent" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Fas_Depo_Test_Result">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="int" Nullable="false" />
+          <Property Name="ResultFileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ResultData" Type="varbinary" MaxLength="2000" />
+          <Property Name="RegDate" Type="datetime" />
+          <Property Name="Count" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FAS_Disassembly">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" />
+          <Property Name="FullSTBSN" Type="varchar" MaxLength="23" />
+          <Property Name="PCBID" Type="int" Nullable="false" />
+          <Property Name="LOTID" Type="smallint" Nullable="false" />
+          <Property Name="ErrorCodeID" Type="smallint" Nullable="false" />
+          <Property Name="DisAssemblyLineID" Type="tinyint" Nullable="false" />
+          <Property Name="DisassemblyDate" Type="datetime" Nullable="false" />
+          <Property Name="DisassemblyByID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_ErrorCode">
+          <Key>
+            <PropertyRef Name="ErrorCodeID" />
+          </Key>
+          <Property Name="ErrorCodeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="ErrGroup" Type="tinyint" />
+          <Property Name="ErrorCode" Type="varchar" MaxLength="2" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_ErrorCodeGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Fixed_RG">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LotID" Type="int" Nullable="false" />
+          <Property Name="LitIndex" Type="smallint" Nullable="false" />
+          <Property Name="RGStart" Type="int" Nullable="false" />
+          <Property Name="RGEnd" Type="int" Nullable="false" />
+          <Property Name="LabDate" Type="date" Nullable="false" />
+          <Property Name="SN_Count" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="FAS_GS_LOTs">
+          <Key>
+            <PropertyRef Name="LOTID" />
+          </Key>
+          <Property Name="LOTID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LOTCode" Type="smallint" Nullable="false" />
+          <Property Name="FULL_LOT_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Specification" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModelID" Type="smallint" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsHDCPUpload" Type="bit" />
+          <Property Name="IsCertUpload" Type="bit" />
+          <Property Name="IsMACUpload" Type="bit" />
+          <Property Name="WorkingScenarioID" Type="tinyint" />
+          <Property Name="LabelScenarioID" Type="tinyint" />
+          <Property Name="LiterIndex" Type="int" />
+          <Property Name="BoxCapacity" Type="int" />
+          <Property Name="PalletCapacity" Type="int" />
+          <Property Name="Manufacturer" Type="nvarchar" MaxLength="5" />
+          <Property Name="Operator" Type="nvarchar" MaxLength="10" />
+          <Property Name="MarketID" Type="nvarchar" MaxLength="15" />
+          <Property Name="PTID" Type="nvarchar" MaxLength="2" />
+          <Property Name="ModelCheck" Type="bit" />
+          <Property Name="SWRead" Type="bit" />
+          <Property Name="SWGS1Read" Type="bit" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateByID" Type="smallint" Nullable="false" />
+          <Property Name="CloseDate" Type="datetime" />
+          <Property Name="CloseByID" Type="smallint" />
+          <Property Name="Fixed_Range" Type="bit" />
+          <Property Name="Fixed_Range_Date" Type="date" />
+          <Property Name="GetWeight" Type="bit" />
+          <Property Name="RangeStart" Type="int" />
+          <Property Name="RangeEnd" Type="int" />
+          <Property Name="FixedRG" Type="bit" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="SWVersion" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsBunch" Type="bit" />
+          <Property Name="IsWeighingPackage" Type="bit" />
+          <Property Name="FakePackage" Type="bit" />
+          <Property Name="FakeBoxNum" Type="int" />
+          <Property Name="FakePalletNum" Type="int" />
+          <Property Name="CountinLot" Type="int" />
+          <Property Name="DateManufacter" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FAS_HDCP">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="HDCPName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="HDCPContent" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="FAS_LabelScenario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Scenario" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Lines">
+          <Key>
+            <PropertyRef Name="LineID" />
+          </Key>
+          <Property Name="LineID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LineName" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="TipeID" Type="tinyint" Nullable="false" />
+          <Property Name="Print_Line" Type="varchar" MaxLength="2" />
+          <Property Name="Flat_LineID" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="FAS_LineType">
+          <Key>
+            <PropertyRef Name="TipeID" />
+          </Key>
+          <Property Name="TipeID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipeName" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Liter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LiterName" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LineID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_MicronSN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DevEUI" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ShortSN" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="QR_Code" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Is_Printed" Type="bit" Nullable="false" />
+          <Property Name="PrintByID" Type="int" />
+          <Property Name="PrintDate" Type="datetime" />
+          <Property Name="Is_RePrinted" Type="bit" Nullable="false" />
+          <Property Name="RePrintByID" Type="int" />
+          <Property Name="RePrintDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FAS_Model_Type">
+          <Key>
+            <PropertyRef Name="ModelTipeID" />
+          </Key>
+          <Property Name="ModelTipeID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Models">
+          <Key>
+            <PropertyRef Name="ModelID" />
+          </Key>
+          <Property Name="ModelID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModelTypeID" Type="tinyint" Nullable="false" />
+          <Property Name="DelaySetting" Type="nvarchar" MaxLength="150" />
+          <Property Name="TopMask" Type="nvarchar" MaxLength="100" />
+          <Property Name="BotMask" Type="nvarchar" MaxLength="15" />
+          <Property Name="lenHDCP" Type="smallint" />
+          <Property Name="ChipCode" Type="smallint" />
+          <Property Name="CustomerID" Type="int" />
+        </EntityType>
+        <EntityType Name="FAS_OperationLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PCBID" Type="int" Nullable="false" />
+          <Property Name="ProductionAreaID" Type="tinyint" Nullable="false" />
+          <Property Name="StationID" Type="smallint" Nullable="false" />
+          <Property Name="ApplicationID" Type="smallint" Nullable="false" />
+          <Property Name="StateCodeDate" Type="datetime" Nullable="false" />
+          <Property Name="StateCodeByID" Type="smallint" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" />
+          <Property Name="Reprint" Type="bit" />
+          <Property Name="ReUpload" Type="bit" />
+          <Property Name="OldLabelDate" Type="datetime" />
+          <Property Name="SmartCardId" Type="bigint" />
+          <Property Name="FullSTBSN" Type="nvarchar" MaxLength="23" />
+          <Property Name="CASID" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="FAS_PackingCounter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PalletCounter" Type="smallint" Nullable="false" />
+          <Property Name="BoxCounter" Type="smallint" Nullable="false" />
+          <Property Name="UnitCounter" Type="smallint" Nullable="false" />
+          <Property Name="LineID" Type="tinyint" Nullable="false" />
+          <Property Name="LOTID" Type="smallint" Nullable="false" />
+          <Property Name="LitIndex" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_PackingGS">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="LiterID" Type="tinyint" Nullable="false" />
+          <Property Name="LiterIndex" Type="smallint" Nullable="false" />
+          <Property Name="PalletNum" Type="smallint" Nullable="false" />
+          <Property Name="BoxNum" Type="smallint" Nullable="false" />
+          <Property Name="UnitNum" Type="smallint" Nullable="false" />
+          <Property Name="PackingDate" Type="datetime" Nullable="false" />
+          <Property Name="PackingByID" Type="smallint" Nullable="false" />
+          <Property Name="LOTID" Type="smallint" />
+          <Property Name="FullBox" Type="bit" />
+          <Property Name="RepackingDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FAS_SerialNumbers">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LOTID" Type="smallint" />
+          <Property Name="IsUsed" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsUploaded" Type="bit" />
+          <Property Name="IsWeighted" Type="bit" />
+          <Property Name="IsPacked" Type="bit" />
+          <Property Name="InRepair" Type="bit" />
+          <Property Name="PrintStationID" Type="smallint" />
+          <Property Name="FixedRange" Type="date" />
+          <Property Name="FixedID" Type="int" />
+          <Property Name="ShipedStatus" Type="int" />
+          <Property Name="BlockedPart" Type="int" />
+        </EntityType>
+        <EntityType Name="FAS_ShiftPlan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LineID" Type="tinyint" Nullable="false" />
+          <Property Name="ShiftPlan" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_ShiftsCounter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StationID" Type="smallint" Nullable="false" />
+          <Property Name="ID_App" Type="smallint" Nullable="false" />
+          <Property Name="ShiftID" Type="tinyint" Nullable="false" />
+          <Property Name="ShiftCounter" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="LOTID" Type="int" />
+          <Property Name="LOT_Counter" Type="int" />
+          <Property Name="PassLOTRes" Type="int" />
+          <Property Name="FAilLOTRes" Type="int" />
+        </EntityType>
+        <EntityType Name="FAS_ShiftsDescription">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+          </Key>
+          <Property Name="ShiftID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShiftName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Start">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="PCBID" Type="int" Nullable="false" />
+          <Property Name="LineID" Type="tinyint" Nullable="false" />
+          <Property Name="FullSTBSN" Type="varchar" MaxLength="23" />
+          <Property Name="ManufDate" Type="datetime" Nullable="false" />
+          <Property Name="AssemblyDate" Type="datetime" />
+          <Property Name="AssemblyByID" Type="smallint" />
+          <Property Name="PrintStationID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_Stations">
+          <Key>
+            <PropertyRef Name="StationID" />
+          </Key>
+          <Property Name="StationID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StationName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="Coordinats" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FAS_Temp_LogUpload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="FullSTBSN" Type="nvarchar" MaxLength="23" />
+          <Property Name="CASID" Type="nvarchar" MaxLength="10" />
+          <Property Name="SmarCardID" Type="bigint" />
+          <Property Name="LineID" Type="tinyint" />
+          <Property Name="StageName" Type="nvarchar" MaxLength="100" />
+          <Property Name="PCBID" Type="int" />
+        </EntityType>
+        <EntityType Name="FAS_TempSerialNumbers1">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="LOTID" Type="smallint" Nullable="false" />
+          <Property Name="IsUsed" Type="bit" Nullable="false" />
+          <Property Name="PCB_ID" Type="int" />
+          <Property Name="LineID" Type="tinyint" />
+          <Property Name="ManufDate" Type="datetime" />
+          <Property Name="PrintStationID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_Upload">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="MAC" Type="nvarchar" MaxLength="17" Nullable="false" />
+          <Property Name="LineID" Type="tinyint" Nullable="false" />
+          <Property Name="SmartCardID" Type="bigint" Nullable="false" />
+          <Property Name="CASID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="SWversion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SWGS1version" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LDS" Type="bit" Nullable="false" />
+          <Property Name="UploadDate" Type="datetime" Nullable="false" />
+          <Property Name="UploadByID" Type="smallint" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FAS_UploadSetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModelID" Type="smallint" Nullable="false" />
+          <Property Name="Num" Type="tinyint" Nullable="false" />
+          <Property Name="Name_Stage" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DelaySetting" Type="smallint" Nullable="false" />
+          <Property Name="CheckStage" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_UserGroup">
+          <Key>
+            <PropertyRef Name="UsersGroupID" />
+          </Key>
+          <Property Name="UsersGroupID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RFID" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="IsActiv" Type="bit" Nullable="false" />
+          <Property Name="UsersGroupID" Type="tinyint" Nullable="false" />
+          <Property Name="IDService" Type="int" />
+        </EntityType>
+        <EntityType Name="FAS_WeightStation">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="STBWeight" Type="smallint" Nullable="false" />
+          <Property Name="WeightDate" Type="datetime" Nullable="false" />
+          <Property Name="WeightByID" Type="smallint" Nullable="false" />
+          <Property Name="Deviation" Type="smallint" />
+        </EntityType>
+        <EntityType Name="FAS_WorkingScenario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Scenario" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FAS_App_ListForPC_FAS_Applications">
+          <End Role="FAS_Applications" Type="Self.FAS_Applications" Multiplicity="1" />
+          <End Role="FAS_App_ListForPC" Type="Self.FAS_App_ListForPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Applications">
+              <PropertyRef Name="App_ID" />
+            </Principal>
+            <Dependent Role="FAS_App_ListForPC">
+              <PropertyRef Name="App_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_App_ListForPC_FAS_Lines">
+          <End Role="FAS_Lines" Type="Self.FAS_Lines" Multiplicity="1" />
+          <End Role="FAS_App_ListForPC" Type="Self.FAS_App_ListForPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Lines">
+              <PropertyRef Name="LineID" />
+            </Principal>
+            <Dependent Role="FAS_App_ListForPC">
+              <PropertyRef Name="LineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_CERT_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_CERT" Type="Self.FAS_CERT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_CERT">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_LabelScenario">
+          <End Role="FAS_LabelScenario" Type="Self.FAS_LabelScenario" Multiplicity="0..1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_LabelScenario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="LabelScenarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_Models">
+          <End Role="FAS_Models" Type="Self.FAS_Models" Multiplicity="1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Models">
+              <PropertyRef Name="ModelID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="ModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="CreateByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_Users1">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="0..1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="CloseByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_WorkingScenario">
+          <End Role="FAS_WorkingScenario" Type="Self.FAS_WorkingScenario" Multiplicity="0..1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_WorkingScenario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="WorkingScenarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_HDCP_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_HDCP" Type="Self.FAS_HDCP" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_HDCP">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Models_FAS_Model_Type">
+          <End Role="FAS_Model_Type" Type="Self.FAS_Model_Type" Multiplicity="1" />
+          <End Role="FAS_Models" Type="Self.FAS_Models" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Model_Type">
+              <PropertyRef Name="ModelTipeID" />
+            </Principal>
+            <Dependent Role="FAS_Models">
+              <PropertyRef Name="ModelTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_PackingGS_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_PackingGS" Type="Self.FAS_PackingGS" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_PackingGS">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_PackingGS_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="1" />
+          <End Role="FAS_PackingGS" Type="Self.FAS_PackingGS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_PackingGS">
+              <PropertyRef Name="PackingByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_ShiftsCounter_FAS_ShiftsDescription">
+          <End Role="FAS_ShiftsDescription" Type="Self.FAS_ShiftsDescription" Multiplicity="1" />
+          <End Role="FAS_ShiftsCounter" Type="Self.FAS_ShiftsCounter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_ShiftsDescription">
+              <PropertyRef Name="ShiftID" />
+            </Principal>
+            <Dependent Role="FAS_ShiftsCounter">
+              <PropertyRef Name="ShiftID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Start_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_Start" Type="Self.FAS_Start" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_Start">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Start_FAS_Stations">
+          <End Role="FAS_Stations" Type="Self.FAS_Stations" Multiplicity="0..1" />
+          <End Role="FAS_Start" Type="Self.FAS_Start" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Stations">
+              <PropertyRef Name="StationID" />
+            </Principal>
+            <Dependent Role="FAS_Start">
+              <PropertyRef Name="PrintStationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Start_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="0..1" />
+          <End Role="FAS_Start" Type="Self.FAS_Start" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_Start">
+              <PropertyRef Name="AssemblyByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Upload_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_Upload" Type="Self.FAS_Upload" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_Upload">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Upload_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="1" />
+          <End Role="FAS_Upload" Type="Self.FAS_Upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_Upload">
+              <PropertyRef Name="UploadByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Users_FAS_UserGroup">
+          <End Role="FAS_UserGroup" Type="Self.FAS_UserGroup" Multiplicity="1" />
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_UserGroup">
+              <PropertyRef Name="UsersGroupID" />
+            </Principal>
+            <Dependent Role="FAS_Users">
+              <PropertyRef Name="UsersGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_WeightStation_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_WeightStation" Type="Self.FAS_WeightStation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_WeightStation">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище FASModelContainer">
+          <EntitySet Name="Ct_StepScan" EntityType="Self.Ct_StepScan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_App_ListForPC" EntityType="Self.FAS_App_ListForPC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Applications" EntityType="Self.FAS_Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Breaks" EntityType="Self.FAS_Breaks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Bunch_Decode" EntityType="Self.FAS_Bunch_Decode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_CERT" EntityType="Self.FAS_CERT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fas_Depo_Test_Result" EntityType="Self.Fas_Depo_Test_Result" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Disassembly" EntityType="Self.FAS_Disassembly" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_ErrorCode" EntityType="Self.FAS_ErrorCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_ErrorCodeGroup" EntityType="Self.FAS_ErrorCodeGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Fixed_RG" EntityType="Self.FAS_Fixed_RG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_GS_LOTs" EntityType="Self.FAS_GS_LOTs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_HDCP" EntityType="Self.FAS_HDCP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_LabelScenario" EntityType="Self.FAS_LabelScenario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Lines" EntityType="Self.FAS_Lines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_LineType" EntityType="Self.FAS_LineType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Liter" EntityType="Self.FAS_Liter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_MicronSN" EntityType="Self.FAS_MicronSN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Model_Type" EntityType="Self.FAS_Model_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Models" EntityType="Self.FAS_Models" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_OperationLog" EntityType="Self.FAS_OperationLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_PackingCounter" EntityType="Self.FAS_PackingCounter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_PackingGS" EntityType="Self.FAS_PackingGS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_SerialNumbers" EntityType="Self.FAS_SerialNumbers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_ShiftPlan" EntityType="Self.FAS_ShiftPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_ShiftsCounter" EntityType="Self.FAS_ShiftsCounter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_ShiftsDescription" EntityType="Self.FAS_ShiftsDescription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Start" EntityType="Self.FAS_Start" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Stations" EntityType="Self.FAS_Stations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Temp_LogUpload" EntityType="Self.FAS_Temp_LogUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_TempSerialNumbers1" EntityType="Self.FAS_TempSerialNumbers1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Upload" EntityType="Self.FAS_Upload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_UploadSetting" EntityType="Self.FAS_UploadSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_UserGroup" EntityType="Self.FAS_UserGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Users" EntityType="Self.FAS_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_WeightStation" EntityType="Self.FAS_WeightStation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_WorkingScenario" EntityType="Self.FAS_WorkingScenario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ct_OperLog" EntityType="Self.Ct_OperLog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Ct_OperLog].[PCBID] AS [PCBID], 
+    [Ct_OperLog].[LOTID] AS [LOTID], 
+    [Ct_OperLog].[StepID] AS [StepID], 
+    [Ct_OperLog].[TestResultID] AS [TestResultID], 
+    [Ct_OperLog].[StepDate] AS [StepDate], 
+    [Ct_OperLog].[StepByID] AS [StepByID], 
+    [Ct_OperLog].[LineID] AS [LineID], 
+    [Ct_OperLog].[ErrorCodeID] AS [ErrorCodeID], 
+    [Ct_OperLog].[Descriptions] AS [Descriptions], 
+    [Ct_OperLog].[SNID] AS [SNID]
+    FROM [dbo].[Ct_OperLog] AS [Ct_OperLog]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_FAS_App_ListForPC_FAS_Applications" Association="Self.FK_FAS_App_ListForPC_FAS_Applications">
+            <End Role="FAS_Applications" EntitySet="FAS_Applications" />
+            <End Role="FAS_App_ListForPC" EntitySet="FAS_App_ListForPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_App_ListForPC_FAS_Lines" Association="Self.FK_FAS_App_ListForPC_FAS_Lines">
+            <End Role="FAS_Lines" EntitySet="FAS_Lines" />
+            <End Role="FAS_App_ListForPC" EntitySet="FAS_App_ListForPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_CERT_FAS_SerialNumbers" Association="Self.FK_FAS_CERT_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_CERT" EntitySet="FAS_CERT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_LabelScenario" Association="Self.FK_FAS_GS_LOTs_FAS_LabelScenario">
+            <End Role="FAS_LabelScenario" EntitySet="FAS_LabelScenario" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_Models" Association="Self.FK_FAS_GS_LOTs_FAS_Models">
+            <End Role="FAS_Models" EntitySet="FAS_Models" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_Users" Association="Self.FK_FAS_GS_LOTs_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_Users1" Association="Self.FK_FAS_GS_LOTs_FAS_Users1">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_WorkingScenario" Association="Self.FK_FAS_GS_LOTs_FAS_WorkingScenario">
+            <End Role="FAS_WorkingScenario" EntitySet="FAS_WorkingScenario" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_HDCP_FAS_SerialNumbers" Association="Self.FK_FAS_HDCP_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_HDCP" EntitySet="FAS_HDCP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Models_FAS_Model_Type" Association="Self.FK_FAS_Models_FAS_Model_Type">
+            <End Role="FAS_Model_Type" EntitySet="FAS_Model_Type" />
+            <End Role="FAS_Models" EntitySet="FAS_Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_PackingGS_FAS_SerialNumbers" Association="Self.FK_FAS_PackingGS_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_PackingGS" EntitySet="FAS_PackingGS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_PackingGS_FAS_Users" Association="Self.FK_FAS_PackingGS_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_PackingGS" EntitySet="FAS_PackingGS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_ShiftsCounter_FAS_ShiftsDescription" Association="Self.FK_FAS_ShiftsCounter_FAS_ShiftsDescription">
+            <End Role="FAS_ShiftsDescription" EntitySet="FAS_ShiftsDescription" />
+            <End Role="FAS_ShiftsCounter" EntitySet="FAS_ShiftsCounter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Start_FAS_SerialNumbers" Association="Self.FK_FAS_Start_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_Start" EntitySet="FAS_Start" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Start_FAS_Stations" Association="Self.FK_FAS_Start_FAS_Stations">
+            <End Role="FAS_Stations" EntitySet="FAS_Stations" />
+            <End Role="FAS_Start" EntitySet="FAS_Start" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Start_FAS_Users" Association="Self.FK_FAS_Start_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_Start" EntitySet="FAS_Start" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Upload_FAS_SerialNumbers" Association="Self.FK_FAS_Upload_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_Upload" EntitySet="FAS_Upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Upload_FAS_Users" Association="Self.FK_FAS_Upload_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_Upload" EntitySet="FAS_Upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Users_FAS_UserGroup" Association="Self.FK_FAS_Users_FAS_UserGroup">
+            <End Role="FAS_UserGroup" EntitySet="FAS_UserGroup" />
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_WeightStation_FAS_SerialNumbers" Association="Self.FK_FAS_WeightStation_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_WeightStation" EntitySet="FAS_WeightStation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FASModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FAS_App_ListForPC">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App_ID" Type="Int16" Nullable="false" />
+          <Property Name="LineID" Type="Byte" Nullable="false" />
+          <Property Name="StationID" Type="Int16" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CT_ScanStep" Type="Int16" />
+          <NavigationProperty Name="FAS_Applications" Relationship="Self.FK_FAS_App_ListForPC_FAS_Applications" FromRole="FAS_App_ListForPC" ToRole="FAS_Applications" />
+          <NavigationProperty Name="FAS_Lines" Relationship="Self.FK_FAS_App_ListForPC_FAS_Lines" FromRole="FAS_App_ListForPC" ToRole="FAS_Lines" />
+        </EntityType>
+        <EntityType Name="FAS_Applications">
+          <Key>
+            <PropertyRef Name="App_ID" />
+          </Key>
+          <Property Name="App_ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="App_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="App_Caption" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="App_CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="App_Path" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FAS_App_ListForPC" Relationship="Self.FK_FAS_App_ListForPC_FAS_Applications" FromRole="FAS_Applications" ToRole="FAS_App_ListForPC" />
+        </EntityType>
+        <EntityType Name="FAS_Breaks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LineID" Type="Byte" Nullable="false" />
+          <Property Name="BreakNumber" Type="Int16" Nullable="false" />
+          <Property Name="StartBreak" Type="Time" Precision="0" />
+          <Property Name="EndBreak" Type="Time" Precision="0" />
+        </EntityType>
+        <EntityType Name="FAS_CERT">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="CERTName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CertContent" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="FAS_SerialNumbers" Relationship="Self.FK_FAS_CERT_FAS_SerialNumbers" FromRole="FAS_CERT" ToRole="FAS_SerialNumbers" />
+        </EntityType>
+        <EntityType Name="Fas_Depo_Test_Result">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="Int32" Nullable="false" />
+          <Property Name="ResultFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResultData" Type="Binary" MaxLength="2000" FixedLength="false" />
+          <Property Name="RegDate" Type="DateTime" Precision="3" />
+          <Property Name="Count" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FAS_Disassembly">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="Int32" />
+          <Property Name="FullSTBSN" Type="String" MaxLength="23" FixedLength="false" Unicode="false" />
+          <Property Name="PCBID" Type="Int32" Nullable="false" />
+          <Property Name="LOTID" Type="Int16" Nullable="false" />
+          <Property Name="ErrorCodeID" Type="Int16" Nullable="false" />
+          <Property Name="DisAssemblyLineID" Type="Byte" Nullable="false" />
+          <Property Name="DisassemblyDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DisassemblyByID" Type="Int16" />
+        </EntityType>
+        <EntityType Name="FAS_ErrorCode">
+          <Key>
+            <PropertyRef Name="ErrorCodeID" />
+          </Key>
+          <Property Name="ErrorCodeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ErrGroup" Type="Byte" />
+          <Property Name="ErrorCode" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="FAS_ErrorCodeGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_GS_LOTs">
+          <Key>
+            <PropertyRef Name="LOTID" />
+          </Key>
+          <Property Name="LOTID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LOTCode" Type="Int16" Nullable="false" />
+          <Property Name="FULL_LOT_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Specification" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModelID" Type="Int16" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsHDCPUpload" Type="Boolean" />
+          <Property Name="IsCertUpload" Type="Boolean" />
+          <Property Name="IsMACUpload" Type="Boolean" />
+          <Property Name="WorkingScenarioID" Type="Byte" />
+          <Property Name="LabelScenarioID" Type="Byte" />
+          <Property Name="LiterIndex" Type="Int32" />
+          <Property Name="BoxCapacity" Type="Int32" />
+          <Property Name="PalletCapacity" Type="Int32" />
+          <Property Name="Manufacturer" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Operator" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MarketID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="PTID" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ModelCheck" Type="Boolean" />
+          <Property Name="SWRead" Type="Boolean" />
+          <Property Name="SWGS1Read" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateByID" Type="Int16" Nullable="false" />
+          <Property Name="CloseDate" Type="DateTime" Precision="3" />
+          <Property Name="CloseByID" Type="Int16" />
+          <Property Name="Fixed_Range" Type="Boolean" />
+          <Property Name="Fixed_Range_Date" Type="DateTime" Precision="0" />
+          <Property Name="GetWeight" Type="Boolean" />
+          <NavigationProperty Name="FAS_LabelScenario" Relationship="Self.FK_FAS_GS_LOTs_FAS_LabelScenario" FromRole="FAS_GS_LOTs" ToRole="FAS_LabelScenario" />
+          <NavigationProperty Name="FAS_Models" Relationship="Self.FK_FAS_GS_LOTs_FAS_Models" FromRole="FAS_GS_LOTs" ToRole="FAS_Models" />
+          <NavigationProperty Name="FAS_Users" Relationship="Self.FK_FAS_GS_LOTs_FAS_Users" FromRole="FAS_GS_LOTs" ToRole="FAS_Users" />
+          <NavigationProperty Name="FAS_Users1" Relationship="Self.FK_FAS_GS_LOTs_FAS_Users1" FromRole="FAS_GS_LOTs" ToRole="FAS_Users" />
+          <NavigationProperty Name="FAS_WorkingScenario" Relationship="Self.FK_FAS_GS_LOTs_FAS_WorkingScenario" FromRole="FAS_GS_LOTs" ToRole="FAS_WorkingScenario" />
+          <Property Name="RangeStart" Type="Int32" />
+          <Property Name="RangeEnd" Type="Int32" />
+          <Property Name="FixedRG" Type="Boolean" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="SWVersion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsBunch" Type="Boolean" />
+          <Property Name="IsWeighingPackage" Type="Boolean" />
+          <Property Name="FakePackage" Type="Boolean" />
+          <Property Name="FakeBoxNum" Type="Int32" />
+          <Property Name="FakePalletNum" Type="Int32" />
+          <Property Name="CountinLot" Type="Int32" />
+          <Property Name="DateManufacter" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FAS_HDCP">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="HDCPName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HDCPContent" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="FAS_SerialNumbers" Relationship="Self.FK_FAS_HDCP_FAS_SerialNumbers" FromRole="FAS_HDCP" ToRole="FAS_SerialNumbers" />
+        </EntityType>
+        <EntityType Name="FAS_LabelScenario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Scenario" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FAS_GS_LOTs" Relationship="Self.FK_FAS_GS_LOTs_FAS_LabelScenario" FromRole="FAS_LabelScenario" ToRole="FAS_GS_LOTs" />
+        </EntityType>
+        <EntityType Name="FAS_Lines">
+          <Key>
+            <PropertyRef Name="LineID" />
+          </Key>
+          <Property Name="LineID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LineName" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TipeID" Type="Byte" Nullable="false" />
+          <Property Name="Print_Line" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Flat_LineID" Type="Byte" />
+          <NavigationProperty Name="FAS_App_ListForPC" Relationship="Self.FK_FAS_App_ListForPC_FAS_Lines" FromRole="FAS_Lines" ToRole="FAS_App_ListForPC" />
+        </EntityType>
+        <EntityType Name="FAS_LineType">
+          <Key>
+            <PropertyRef Name="TipeID" />
+          </Key>
+          <Property Name="TipeID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipeName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_Liter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LiterName" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LineID" Type="Int16" />
+        </EntityType>
+        <EntityType Name="FAS_MicronSN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DevEUI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShortSN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QR_Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Is_Printed" Type="Boolean" Nullable="false" />
+          <Property Name="PrintByID" Type="Int32" />
+          <Property Name="PrintDate" Type="DateTime" Precision="3" />
+          <Property Name="Is_RePrinted" Type="Boolean" Nullable="false" />
+          <Property Name="RePrintByID" Type="Int32" />
+          <Property Name="RePrintDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FAS_Model_Type">
+          <Key>
+            <PropertyRef Name="ModelTipeID" />
+          </Key>
+          <Property Name="ModelTipeID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FAS_Models" Relationship="Self.FK_FAS_Models_FAS_Model_Type" FromRole="FAS_Model_Type" ToRole="FAS_Models" />
+        </EntityType>
+        <EntityType Name="FAS_Models">
+          <Key>
+            <PropertyRef Name="ModelID" />
+          </Key>
+          <Property Name="ModelID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModelTypeID" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="FAS_GS_LOTs" Relationship="Self.FK_FAS_GS_LOTs_FAS_Models" FromRole="FAS_Models" ToRole="FAS_GS_LOTs" />
+          <NavigationProperty Name="FAS_Model_Type" Relationship="Self.FK_FAS_Models_FAS_Model_Type" FromRole="FAS_Models" ToRole="FAS_Model_Type" />
+          <Property Name="DelaySetting" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TopMask" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BotMask" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="lenHDCP" Type="Int16" />
+          <Property Name="ChipCode" Type="Int16" />
+          <Property Name="CustomerID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FAS_OperationLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PCBID" Type="Int32" Nullable="false" />
+          <Property Name="ProductionAreaID" Type="Byte" Nullable="false" />
+          <Property Name="StationID" Type="Int16" Nullable="false" />
+          <Property Name="ApplicationID" Type="Int16" Nullable="false" />
+          <Property Name="StateCodeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StateCodeByID" Type="Int16" Nullable="false" />
+          <Property Name="SerialNumber" Type="Int32" />
+          <Property Name="Reprint" Type="Boolean" />
+          <Property Name="ReUpload" Type="Boolean" />
+          <Property Name="OldLabelDate" Type="DateTime" Precision="3" />
+          <Property Name="SmartCardId" Type="Int64" />
+          <Property Name="FullSTBSN" Type="String" MaxLength="23" FixedLength="false" Unicode="true" />
+          <Property Name="CASID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FAS_PackingCounter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PalletCounter" Type="Int16" Nullable="false" />
+          <Property Name="BoxCounter" Type="Int16" Nullable="false" />
+          <Property Name="UnitCounter" Type="Int16" Nullable="false" />
+          <Property Name="LineID" Type="Byte" Nullable="false" />
+          <Property Name="LOTID" Type="Int16" Nullable="false" />
+          <Property Name="LitIndex" Type="Int16" />
+        </EntityType>
+        <EntityType Name="FAS_PackingGS">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="LiterID" Type="Byte" Nullable="false" />
+          <Property Name="LiterIndex" Type="Int16" Nullable="false" />
+          <Property Name="PalletNum" Type="Int16" Nullable="false" />
+          <Property Name="BoxNum" Type="Int16" Nullable="false" />
+          <Property Name="UnitNum" Type="Int16" Nullable="false" />
+          <Property Name="PackingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PackingByID" Type="Int16" Nullable="false" />
+          <Property Name="LOTID" Type="Int16" />
+          <NavigationProperty Name="FAS_SerialNumbers" Relationship="Self.FK_FAS_PackingGS_FAS_SerialNumbers" FromRole="FAS_PackingGS" ToRole="FAS_SerialNumbers" />
+          <NavigationProperty Name="FAS_Users" Relationship="Self.FK_FAS_PackingGS_FAS_Users" FromRole="FAS_PackingGS" ToRole="FAS_Users" />
+          <Property Name="FullBox" Type="Boolean" />
+          <Property Name="RepackingDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FAS_SerialNumbers">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LOTID" Type="Int16" />
+          <Property Name="IsUsed" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsUploaded" Type="Boolean" />
+          <Property Name="IsWeighted" Type="Boolean" />
+          <Property Name="IsPacked" Type="Boolean" />
+          <Property Name="InRepair" Type="Boolean" />
+          <Property Name="PrintStationID" Type="Int16" />
+          <NavigationProperty Name="FAS_CERT" Relationship="Self.FK_FAS_CERT_FAS_SerialNumbers" FromRole="FAS_SerialNumbers" ToRole="FAS_CERT" />
+          <NavigationProperty Name="FAS_HDCP" Relationship="Self.FK_FAS_HDCP_FAS_SerialNumbers" FromRole="FAS_SerialNumbers" ToRole="FAS_HDCP" />
+          <NavigationProperty Name="FAS_PackingGS" Relationship="Self.FK_FAS_PackingGS_FAS_SerialNumbers" FromRole="FAS_SerialNumbers" ToRole="FAS_PackingGS" />
+          <NavigationProperty Name="FAS_Start" Relationship="Self.FK_FAS_Start_FAS_SerialNumbers" FromRole="FAS_SerialNumbers" ToRole="FAS_Start" />
+          <NavigationProperty Name="FAS_Upload" Relationship="Self.FK_FAS_Upload_FAS_SerialNumbers" FromRole="FAS_SerialNumbers" ToRole="FAS_Upload" />
+          <NavigationProperty Name="FAS_WeightStation" Relationship="Self.FK_FAS_WeightStation_FAS_SerialNumbers" FromRole="FAS_SerialNumbers" ToRole="FAS_WeightStation" />
+          <Property Name="FixedID" Type="Int32" />
+          <Property Name="FixedRange" Type="DateTime" Precision="0" />
+          <Property Name="ShipedStatus" Type="Int32" />
+          <Property Name="BlockedPart" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FAS_ShiftPlan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LineID" Type="Byte" Nullable="false" />
+          <Property Name="ShiftPlan" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAS_ShiftsCounter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StationID" Type="Int16" Nullable="false" />
+          <Property Name="ID_App" Type="Int16" Nullable="false" />
+          <Property Name="ShiftID" Type="Byte" Nullable="false" />
+          <Property Name="ShiftCounter" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LOTID" Type="Int32" />
+          <Property Name="LOT_Counter" Type="Int32" />
+          <Property Name="PassLOTRes" Type="Int32" />
+          <Property Name="FAilLOTRes" Type="Int32" />
+          <NavigationProperty Name="FAS_ShiftsDescription" Relationship="Self.FK_FAS_ShiftsCounter_FAS_ShiftsDescription" FromRole="FAS_ShiftsCounter" ToRole="FAS_ShiftsDescription" />
+        </EntityType>
+        <EntityType Name="FAS_ShiftsDescription">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+          </Key>
+          <Property Name="ShiftID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShiftName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FAS_ShiftsCounter" Relationship="Self.FK_FAS_ShiftsCounter_FAS_ShiftsDescription" FromRole="FAS_ShiftsDescription" ToRole="FAS_ShiftsCounter" />
+        </EntityType>
+        <EntityType Name="FAS_Start">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="PCBID" Type="Int32" Nullable="false" />
+          <Property Name="LineID" Type="Byte" Nullable="false" />
+          <Property Name="FullSTBSN" Type="String" MaxLength="23" FixedLength="false" Unicode="false" />
+          <Property Name="ManufDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AssemblyDate" Type="DateTime" Precision="3" />
+          <Property Name="AssemblyByID" Type="Int16" />
+          <Property Name="PrintStationID" Type="Int16" />
+          <NavigationProperty Name="FAS_SerialNumbers" Relationship="Self.FK_FAS_Start_FAS_SerialNumbers" FromRole="FAS_Start" ToRole="FAS_SerialNumbers" />
+          <NavigationProperty Name="FAS_Stations" Relationship="Self.FK_FAS_Start_FAS_Stations" FromRole="FAS_Start" ToRole="FAS_Stations" />
+          <NavigationProperty Name="FAS_Users" Relationship="Self.FK_FAS_Start_FAS_Users" FromRole="FAS_Start" ToRole="FAS_Users" />
+        </EntityType>
+        <EntityType Name="FAS_Stations">
+          <Key>
+            <PropertyRef Name="StationID" />
+          </Key>
+          <Property Name="StationID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StationName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FAS_Start" Relationship="Self.FK_FAS_Start_FAS_Stations" FromRole="FAS_Stations" ToRole="FAS_Start" />
+          <Property Name="Coordinats" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FAS_TempSerialNumbers1">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="LOTID" Type="Int16" Nullable="false" />
+          <Property Name="IsUsed" Type="Boolean" Nullable="false" />
+          <Property Name="PCB_ID" Type="Int32" />
+          <Property Name="LineID" Type="Byte" />
+          <Property Name="ManufDate" Type="DateTime" Precision="3" />
+          <Property Name="PrintStationID" Type="Int16" />
+        </EntityType>
+        <EntityType Name="FAS_Upload">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="MAC" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LineID" Type="Byte" Nullable="false" />
+          <Property Name="SmartCardID" Type="Int64" Nullable="false" />
+          <Property Name="CASID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SWversion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SWGS1version" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LDS" Type="Boolean" Nullable="false" />
+          <Property Name="UploadDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UploadByID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="FAS_SerialNumbers" Relationship="Self.FK_FAS_Upload_FAS_SerialNumbers" FromRole="FAS_Upload" ToRole="FAS_SerialNumbers" />
+          <NavigationProperty Name="FAS_Users" Relationship="Self.FK_FAS_Upload_FAS_Users" FromRole="FAS_Upload" ToRole="FAS_Users" />
+          <Property Name="ModelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FAS_UserGroup">
+          <Key>
+            <PropertyRef Name="UsersGroupID" />
+          </Key>
+          <Property Name="UsersGroupID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FAS_Users" Relationship="Self.FK_FAS_Users_FAS_UserGroup" FromRole="FAS_UserGroup" ToRole="FAS_Users" />
+        </EntityType>
+        <EntityType Name="FAS_Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RFID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActiv" Type="Boolean" Nullable="false" />
+          <Property Name="UsersGroupID" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="FAS_GS_LOTs" Relationship="Self.FK_FAS_GS_LOTs_FAS_Users" FromRole="FAS_Users" ToRole="FAS_GS_LOTs" />
+          <NavigationProperty Name="FAS_GS_LOTs1" Relationship="Self.FK_FAS_GS_LOTs_FAS_Users1" FromRole="FAS_Users" ToRole="FAS_GS_LOTs" />
+          <NavigationProperty Name="FAS_PackingGS" Relationship="Self.FK_FAS_PackingGS_FAS_Users" FromRole="FAS_Users" ToRole="FAS_PackingGS" />
+          <NavigationProperty Name="FAS_Start" Relationship="Self.FK_FAS_Start_FAS_Users" FromRole="FAS_Users" ToRole="FAS_Start" />
+          <NavigationProperty Name="FAS_Upload" Relationship="Self.FK_FAS_Upload_FAS_Users" FromRole="FAS_Users" ToRole="FAS_Upload" />
+          <NavigationProperty Name="FAS_UserGroup" Relationship="Self.FK_FAS_Users_FAS_UserGroup" FromRole="FAS_Users" ToRole="FAS_UserGroup" />
+          <Property Name="IDService" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FAS_WeightStation">
+          <Key>
+            <PropertyRef Name="SerialNumber" />
+          </Key>
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="STBWeight" Type="Int16" Nullable="false" />
+          <Property Name="WeightDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WeightByID" Type="Int16" Nullable="false" />
+          <Property Name="Deviation" Type="Int16" />
+          <NavigationProperty Name="FAS_SerialNumbers" Relationship="Self.FK_FAS_WeightStation_FAS_SerialNumbers" FromRole="FAS_WeightStation" ToRole="FAS_SerialNumbers" />
+        </EntityType>
+        <EntityType Name="FAS_WorkingScenario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Scenario" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FAS_GS_LOTs" Relationship="Self.FK_FAS_GS_LOTs_FAS_WorkingScenario" FromRole="FAS_WorkingScenario" ToRole="FAS_GS_LOTs" />
+        </EntityType>
+        <Association Name="FK_FAS_App_ListForPC_FAS_Applications">
+          <End Role="FAS_Applications" Type="Self.FAS_Applications" Multiplicity="1" />
+          <End Role="FAS_App_ListForPC" Type="Self.FAS_App_ListForPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Applications">
+              <PropertyRef Name="App_ID" />
+            </Principal>
+            <Dependent Role="FAS_App_ListForPC">
+              <PropertyRef Name="App_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_App_ListForPC_FAS_Lines">
+          <End Role="FAS_Lines" Type="Self.FAS_Lines" Multiplicity="1" />
+          <End Role="FAS_App_ListForPC" Type="Self.FAS_App_ListForPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Lines">
+              <PropertyRef Name="LineID" />
+            </Principal>
+            <Dependent Role="FAS_App_ListForPC">
+              <PropertyRef Name="LineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_CERT_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_CERT" Type="Self.FAS_CERT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_CERT">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_LabelScenario">
+          <End Role="FAS_LabelScenario" Type="Self.FAS_LabelScenario" Multiplicity="0..1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_LabelScenario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="LabelScenarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_Models">
+          <End Role="FAS_Models" Type="Self.FAS_Models" Multiplicity="1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Models">
+              <PropertyRef Name="ModelID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="ModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="CreateByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_Users1">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="0..1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="CloseByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_GS_LOTs_FAS_WorkingScenario">
+          <End Role="FAS_WorkingScenario" Type="Self.FAS_WorkingScenario" Multiplicity="0..1" />
+          <End Role="FAS_GS_LOTs" Type="Self.FAS_GS_LOTs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_WorkingScenario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAS_GS_LOTs">
+              <PropertyRef Name="WorkingScenarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_HDCP_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_HDCP" Type="Self.FAS_HDCP" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_HDCP">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Models_FAS_Model_Type">
+          <End Role="FAS_Model_Type" Type="Self.FAS_Model_Type" Multiplicity="1" />
+          <End Role="FAS_Models" Type="Self.FAS_Models" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Model_Type">
+              <PropertyRef Name="ModelTipeID" />
+            </Principal>
+            <Dependent Role="FAS_Models">
+              <PropertyRef Name="ModelTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_PackingGS_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_PackingGS" Type="Self.FAS_PackingGS" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_PackingGS">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_PackingGS_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="1" />
+          <End Role="FAS_PackingGS" Type="Self.FAS_PackingGS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_PackingGS">
+              <PropertyRef Name="PackingByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Start_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_Start" Type="Self.FAS_Start" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_Start">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Upload_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_Upload" Type="Self.FAS_Upload" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_Upload">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_WeightStation_FAS_SerialNumbers">
+          <End Role="FAS_SerialNumbers" Type="Self.FAS_SerialNumbers" Multiplicity="1" />
+          <End Role="FAS_WeightStation" Type="Self.FAS_WeightStation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_SerialNumbers">
+              <PropertyRef Name="SerialNumber" />
+            </Principal>
+            <Dependent Role="FAS_WeightStation">
+              <PropertyRef Name="SerialNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_ShiftsCounter_FAS_ShiftsDescription">
+          <End Role="FAS_ShiftsDescription" Type="Self.FAS_ShiftsDescription" Multiplicity="1" />
+          <End Role="FAS_ShiftsCounter" Type="Self.FAS_ShiftsCounter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_ShiftsDescription">
+              <PropertyRef Name="ShiftID" />
+            </Principal>
+            <Dependent Role="FAS_ShiftsCounter">
+              <PropertyRef Name="ShiftID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Start_FAS_Stations">
+          <End Role="FAS_Stations" Type="Self.FAS_Stations" Multiplicity="0..1" />
+          <End Role="FAS_Start" Type="Self.FAS_Start" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Stations">
+              <PropertyRef Name="StationID" />
+            </Principal>
+            <Dependent Role="FAS_Start">
+              <PropertyRef Name="PrintStationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Start_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="0..1" />
+          <End Role="FAS_Start" Type="Self.FAS_Start" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_Start">
+              <PropertyRef Name="AssemblyByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Upload_FAS_Users">
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="1" />
+          <End Role="FAS_Upload" Type="Self.FAS_Upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FAS_Upload">
+              <PropertyRef Name="UploadByID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAS_Users_FAS_UserGroup">
+          <End Role="FAS_UserGroup" Type="Self.FAS_UserGroup" Multiplicity="1" />
+          <End Role="FAS_Users" Type="Self.FAS_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAS_UserGroup">
+              <PropertyRef Name="UsersGroupID" />
+            </Principal>
+            <Dependent Role="FAS_Users">
+              <PropertyRef Name="UsersGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FASEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FAS_App_ListForPC" EntityType="Self.FAS_App_ListForPC" />
+          <EntitySet Name="FAS_Applications" EntityType="Self.FAS_Applications" />
+          <EntitySet Name="FAS_Breaks" EntityType="Self.FAS_Breaks" />
+          <EntitySet Name="FAS_CERT" EntityType="Self.FAS_CERT" />
+          <EntitySet Name="Fas_Depo_Test_Result" EntityType="Self.Fas_Depo_Test_Result" />
+          <EntitySet Name="FAS_Disassembly" EntityType="Self.FAS_Disassembly" />
+          <EntitySet Name="FAS_ErrorCode" EntityType="Self.FAS_ErrorCode" />
+          <EntitySet Name="FAS_ErrorCodeGroup" EntityType="Self.FAS_ErrorCodeGroup" />
+          <EntitySet Name="FAS_GS_LOTs" EntityType="Self.FAS_GS_LOTs" />
+          <EntitySet Name="FAS_HDCP" EntityType="Self.FAS_HDCP" />
+          <EntitySet Name="FAS_LabelScenario" EntityType="Self.FAS_LabelScenario" />
+          <EntitySet Name="FAS_Lines" EntityType="Self.FAS_Lines" />
+          <EntitySet Name="FAS_LineType" EntityType="Self.FAS_LineType" />
+          <EntitySet Name="FAS_Liter" EntityType="Self.FAS_Liter" />
+          <EntitySet Name="FAS_MicronSN" EntityType="Self.FAS_MicronSN" />
+          <EntitySet Name="FAS_Model_Type" EntityType="Self.FAS_Model_Type" />
+          <EntitySet Name="FAS_Models" EntityType="Self.FAS_Models" />
+          <EntitySet Name="FAS_OperationLog" EntityType="Self.FAS_OperationLog" />
+          <EntitySet Name="FAS_PackingCounter" EntityType="Self.FAS_PackingCounter" />
+          <EntitySet Name="FAS_PackingGS" EntityType="Self.FAS_PackingGS" />
+          <EntitySet Name="FAS_SerialNumbers" EntityType="Self.FAS_SerialNumbers" />
+          <EntitySet Name="FAS_ShiftPlan" EntityType="Self.FAS_ShiftPlan" />
+          <EntitySet Name="FAS_ShiftsCounter" EntityType="Self.FAS_ShiftsCounter" />
+          <EntitySet Name="FAS_ShiftsDescription" EntityType="Self.FAS_ShiftsDescription" />
+          <EntitySet Name="FAS_Start" EntityType="Self.FAS_Start" />
+          <EntitySet Name="FAS_Stations" EntityType="Self.FAS_Stations" />
+          <EntitySet Name="FAS_TempSerialNumbers1" EntityType="Self.FAS_TempSerialNumbers1" />
+          <EntitySet Name="FAS_Upload" EntityType="Self.FAS_Upload" />
+          <EntitySet Name="FAS_UserGroup" EntityType="Self.FAS_UserGroup" />
+          <EntitySet Name="FAS_Users" EntityType="Self.FAS_Users" />
+          <EntitySet Name="FAS_WeightStation" EntityType="Self.FAS_WeightStation" />
+          <EntitySet Name="FAS_WorkingScenario" EntityType="Self.FAS_WorkingScenario" />
+          <AssociationSet Name="FK_FAS_App_ListForPC_FAS_Applications" Association="Self.FK_FAS_App_ListForPC_FAS_Applications">
+            <End Role="FAS_Applications" EntitySet="FAS_Applications" />
+            <End Role="FAS_App_ListForPC" EntitySet="FAS_App_ListForPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_App_ListForPC_FAS_Lines" Association="Self.FK_FAS_App_ListForPC_FAS_Lines">
+            <End Role="FAS_Lines" EntitySet="FAS_Lines" />
+            <End Role="FAS_App_ListForPC" EntitySet="FAS_App_ListForPC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_CERT_FAS_SerialNumbers" Association="Self.FK_FAS_CERT_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_CERT" EntitySet="FAS_CERT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_LabelScenario" Association="Self.FK_FAS_GS_LOTs_FAS_LabelScenario">
+            <End Role="FAS_LabelScenario" EntitySet="FAS_LabelScenario" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_Models" Association="Self.FK_FAS_GS_LOTs_FAS_Models">
+            <End Role="FAS_Models" EntitySet="FAS_Models" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_Users" Association="Self.FK_FAS_GS_LOTs_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_Users1" Association="Self.FK_FAS_GS_LOTs_FAS_Users1">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_GS_LOTs_FAS_WorkingScenario" Association="Self.FK_FAS_GS_LOTs_FAS_WorkingScenario">
+            <End Role="FAS_WorkingScenario" EntitySet="FAS_WorkingScenario" />
+            <End Role="FAS_GS_LOTs" EntitySet="FAS_GS_LOTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_HDCP_FAS_SerialNumbers" Association="Self.FK_FAS_HDCP_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_HDCP" EntitySet="FAS_HDCP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Models_FAS_Model_Type" Association="Self.FK_FAS_Models_FAS_Model_Type">
+            <End Role="FAS_Model_Type" EntitySet="FAS_Model_Type" />
+            <End Role="FAS_Models" EntitySet="FAS_Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_PackingGS_FAS_SerialNumbers" Association="Self.FK_FAS_PackingGS_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_PackingGS" EntitySet="FAS_PackingGS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_PackingGS_FAS_Users" Association="Self.FK_FAS_PackingGS_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_PackingGS" EntitySet="FAS_PackingGS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Start_FAS_SerialNumbers" Association="Self.FK_FAS_Start_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_Start" EntitySet="FAS_Start" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Upload_FAS_SerialNumbers" Association="Self.FK_FAS_Upload_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_Upload" EntitySet="FAS_Upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_WeightStation_FAS_SerialNumbers" Association="Self.FK_FAS_WeightStation_FAS_SerialNumbers">
+            <End Role="FAS_SerialNumbers" EntitySet="FAS_SerialNumbers" />
+            <End Role="FAS_WeightStation" EntitySet="FAS_WeightStation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_ShiftsCounter_FAS_ShiftsDescription" Association="Self.FK_FAS_ShiftsCounter_FAS_ShiftsDescription">
+            <End Role="FAS_ShiftsDescription" EntitySet="FAS_ShiftsDescription" />
+            <End Role="FAS_ShiftsCounter" EntitySet="FAS_ShiftsCounter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Start_FAS_Stations" Association="Self.FK_FAS_Start_FAS_Stations">
+            <End Role="FAS_Stations" EntitySet="FAS_Stations" />
+            <End Role="FAS_Start" EntitySet="FAS_Start" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Start_FAS_Users" Association="Self.FK_FAS_Start_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_Start" EntitySet="FAS_Start" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Upload_FAS_Users" Association="Self.FK_FAS_Upload_FAS_Users">
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+            <End Role="FAS_Upload" EntitySet="FAS_Upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAS_Users_FAS_UserGroup" Association="Self.FK_FAS_Users_FAS_UserGroup">
+            <End Role="FAS_UserGroup" EntitySet="FAS_UserGroup" />
+            <End Role="FAS_Users" EntitySet="FAS_Users" />
+          </AssociationSet>
+          <EntitySet Name="FAS_Fixed_RG" EntityType="FASModel.FAS_Fixed_RG" />
+          <EntitySet Name="Ct_StepScan" EntityType="FASModel.Ct_StepScan" />
+          <EntitySet Name="FAS_Temp_LogUpload" EntityType="FASModel.FAS_Temp_LogUpload" />
+          <EntitySet Name="Ct_OperLog" EntityType="FASModel.Ct_OperLog" />
+          <EntitySet Name="FAS_Bunch_Decode" EntityType="FASModel.FAS_Bunch_Decode" />
+          <EntitySet Name="FAS_UploadSetting" EntityType="FASModel.FAS_UploadSetting" />
+          </EntityContainer>
+        <EntityType Name="FAS_Fixed_RG">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LotID" Type="Int32" Nullable="false" />
+          <Property Name="LitIndex" Type="Int16" Nullable="false" />
+          <Property Name="RGStart" Type="Int32" Nullable="false" />
+          <Property Name="RGEnd" Type="Int32" Nullable="false" />
+          <Property Name="LabDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SN_Count" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Ct_StepScan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StepName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NumStep" Type="Int16" />
+          <Property Name="ModelType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FAS_Temp_LogUpload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="FullSTBSN" Type="String" MaxLength="23" FixedLength="false" Unicode="true" />
+          <Property Name="CASID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SmarCardID" Type="Int64" />
+          <Property Name="LineID" Type="Byte" />
+          <Property Name="StageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PCBID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Ct_OperLog">
+          <Key>
+            <PropertyRef Name="TestResultID" />
+            <PropertyRef Name="StepDate" />
+          </Key>
+          <Property Name="PCBID" Type="Int32" />
+          <Property Name="LOTID" Type="Int32" />
+          <Property Name="StepID" Type="Int16" />
+          <Property Name="TestResultID" Type="Byte" Nullable="false" />
+          <Property Name="StepDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StepByID" Type="Int16" />
+          <Property Name="LineID" Type="Byte" />
+          <Property Name="ErrorCodeID" Type="Int32" />
+          <Property Name="Descriptions" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SNID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FAS_Bunch_Decode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PCBIDTOP" Type="Int32" />
+          <Property Name="PCBIDBOT" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LOTID" Type="Int32" />
+          <Property Name="FASSNID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FAS_UploadSetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelID" Type="Int16" Nullable="false" />
+          <Property Name="Num" Type="Byte" Nullable="false" />
+          <Property Name="Name_Stage" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DelaySetting" Type="Int16" Nullable="false" />
+          <Property Name="CheckStage" Type="Boolean" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FASModelContainer" CdmEntityContainer="FASEntities">
+          <EntitySetMapping Name="FAS_App_ListForPC">
+            <EntityTypeMapping TypeName="FASModel.FAS_App_ListForPC">
+              <MappingFragment StoreEntitySet="FAS_App_ListForPC">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="App_ID" ColumnName="App_ID" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="StationID" ColumnName="StationID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CT_ScanStep" ColumnName="CT_ScanStep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Applications">
+            <EntityTypeMapping TypeName="FASModel.FAS_Applications">
+              <MappingFragment StoreEntitySet="FAS_Applications">
+                <ScalarProperty Name="App_ID" ColumnName="App_ID" />
+                <ScalarProperty Name="App_Name" ColumnName="App_Name" />
+                <ScalarProperty Name="App_Caption" ColumnName="App_Caption" />
+                <ScalarProperty Name="App_CreateDate" ColumnName="App_CreateDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="App_Path" ColumnName="App_Path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Breaks">
+            <EntityTypeMapping TypeName="FASModel.FAS_Breaks">
+              <MappingFragment StoreEntitySet="FAS_Breaks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="BreakNumber" ColumnName="BreakNumber" />
+                <ScalarProperty Name="StartBreak" ColumnName="StartBreak" />
+                <ScalarProperty Name="EndBreak" ColumnName="EndBreak" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_CERT">
+            <EntityTypeMapping TypeName="FASModel.FAS_CERT">
+              <MappingFragment StoreEntitySet="FAS_CERT">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="CERTName" ColumnName="CERTName" />
+                <ScalarProperty Name="CertContent" ColumnName="CertContent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fas_Depo_Test_Result">
+            <EntityTypeMapping TypeName="FASModel.Fas_Depo_Test_Result">
+              <MappingFragment StoreEntitySet="Fas_Depo_Test_Result">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="ResultFileName" ColumnName="ResultFileName" />
+                <ScalarProperty Name="ResultData" ColumnName="ResultData" />
+                <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Disassembly">
+            <EntityTypeMapping TypeName="FASModel.FAS_Disassembly">
+              <MappingFragment StoreEntitySet="FAS_Disassembly">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="FullSTBSN" ColumnName="FullSTBSN" />
+                <ScalarProperty Name="PCBID" ColumnName="PCBID" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="ErrorCodeID" ColumnName="ErrorCodeID" />
+                <ScalarProperty Name="DisAssemblyLineID" ColumnName="DisAssemblyLineID" />
+                <ScalarProperty Name="DisassemblyDate" ColumnName="DisassemblyDate" />
+                <ScalarProperty Name="DisassemblyByID" ColumnName="DisassemblyByID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_ErrorCode">
+            <EntityTypeMapping TypeName="FASModel.FAS_ErrorCode">
+              <MappingFragment StoreEntitySet="FAS_ErrorCode">
+                <ScalarProperty Name="ErrorCodeID" ColumnName="ErrorCodeID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ErrGroup" ColumnName="ErrGroup" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_ErrorCodeGroup">
+            <EntityTypeMapping TypeName="FASModel.FAS_ErrorCodeGroup">
+              <MappingFragment StoreEntitySet="FAS_ErrorCodeGroup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_GS_LOTs">
+            <EntityTypeMapping TypeName="FASModel.FAS_GS_LOTs">
+              <MappingFragment StoreEntitySet="FAS_GS_LOTs">
+                <ScalarProperty Name="DateManufacter" ColumnName="DateManufacter" />
+                <ScalarProperty Name="CountinLot" ColumnName="CountinLot" />
+                <ScalarProperty Name="FakePalletNum" ColumnName="FakePalletNum" />
+                <ScalarProperty Name="FakeBoxNum" ColumnName="FakeBoxNum" />
+                <ScalarProperty Name="FakePackage" ColumnName="FakePackage" />
+                <ScalarProperty Name="IsWeighingPackage" ColumnName="IsWeighingPackage" />
+                <ScalarProperty Name="IsBunch" ColumnName="IsBunch" />
+                <ScalarProperty Name="SWVersion" ColumnName="SWVersion" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="FixedRG" ColumnName="FixedRG" />
+                <ScalarProperty Name="RangeEnd" ColumnName="RangeEnd" />
+                <ScalarProperty Name="RangeStart" ColumnName="RangeStart" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="LOTCode" ColumnName="LOTCode" />
+                <ScalarProperty Name="FULL_LOT_Code" ColumnName="FULL_LOT_Code" />
+                <ScalarProperty Name="Specification" ColumnName="Specification" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsHDCPUpload" ColumnName="IsHDCPUpload" />
+                <ScalarProperty Name="IsCertUpload" ColumnName="IsCertUpload" />
+                <ScalarProperty Name="IsMACUpload" ColumnName="IsMACUpload" />
+                <ScalarProperty Name="WorkingScenarioID" ColumnName="WorkingScenarioID" />
+                <ScalarProperty Name="LabelScenarioID" ColumnName="LabelScenarioID" />
+                <ScalarProperty Name="LiterIndex" ColumnName="LiterIndex" />
+                <ScalarProperty Name="BoxCapacity" ColumnName="BoxCapacity" />
+                <ScalarProperty Name="PalletCapacity" ColumnName="PalletCapacity" />
+                <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="PTID" ColumnName="PTID" />
+                <ScalarProperty Name="ModelCheck" ColumnName="ModelCheck" />
+                <ScalarProperty Name="SWRead" ColumnName="SWRead" />
+                <ScalarProperty Name="SWGS1Read" ColumnName="SWGS1Read" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateByID" ColumnName="CreateByID" />
+                <ScalarProperty Name="CloseDate" ColumnName="CloseDate" />
+                <ScalarProperty Name="CloseByID" ColumnName="CloseByID" />
+                <ScalarProperty Name="Fixed_Range" ColumnName="Fixed_Range" />
+                <ScalarProperty Name="Fixed_Range_Date" ColumnName="Fixed_Range_Date" />
+                <ScalarProperty Name="GetWeight" ColumnName="GetWeight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_HDCP">
+            <EntityTypeMapping TypeName="FASModel.FAS_HDCP">
+              <MappingFragment StoreEntitySet="FAS_HDCP">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="HDCPName" ColumnName="HDCPName" />
+                <ScalarProperty Name="HDCPContent" ColumnName="HDCPContent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_LabelScenario">
+            <EntityTypeMapping TypeName="FASModel.FAS_LabelScenario">
+              <MappingFragment StoreEntitySet="FAS_LabelScenario">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Scenario" ColumnName="Scenario" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Lines">
+            <EntityTypeMapping TypeName="FASModel.FAS_Lines">
+              <MappingFragment StoreEntitySet="FAS_Lines">
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="LineName" ColumnName="LineName" />
+                <ScalarProperty Name="TipeID" ColumnName="TipeID" />
+                <ScalarProperty Name="Print_Line" ColumnName="Print_Line" />
+                <ScalarProperty Name="Flat_LineID" ColumnName="Flat_LineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_LineType">
+            <EntityTypeMapping TypeName="FASModel.FAS_LineType">
+              <MappingFragment StoreEntitySet="FAS_LineType">
+                <ScalarProperty Name="TipeID" ColumnName="TipeID" />
+                <ScalarProperty Name="TipeName" ColumnName="TipeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Liter">
+            <EntityTypeMapping TypeName="FASModel.FAS_Liter">
+              <MappingFragment StoreEntitySet="FAS_Liter">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LiterName" ColumnName="LiterName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_MicronSN">
+            <EntityTypeMapping TypeName="FASModel.FAS_MicronSN">
+              <MappingFragment StoreEntitySet="FAS_MicronSN">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DevEUI" ColumnName="DevEUI" />
+                <ScalarProperty Name="ShortSN" ColumnName="ShortSN" />
+                <ScalarProperty Name="QR_Code" ColumnName="QR_Code" />
+                <ScalarProperty Name="Is_Printed" ColumnName="Is_Printed" />
+                <ScalarProperty Name="PrintByID" ColumnName="PrintByID" />
+                <ScalarProperty Name="PrintDate" ColumnName="PrintDate" />
+                <ScalarProperty Name="Is_RePrinted" ColumnName="Is_RePrinted" />
+                <ScalarProperty Name="RePrintByID" ColumnName="RePrintByID" />
+                <ScalarProperty Name="RePrintDate" ColumnName="RePrintDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Model_Type">
+            <EntityTypeMapping TypeName="FASModel.FAS_Model_Type">
+              <MappingFragment StoreEntitySet="FAS_Model_Type">
+                <ScalarProperty Name="ModelTipeID" ColumnName="ModelTipeID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Models">
+            <EntityTypeMapping TypeName="FASModel.FAS_Models">
+              <MappingFragment StoreEntitySet="FAS_Models">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ChipCode" ColumnName="ChipCode" />
+                <ScalarProperty Name="lenHDCP" ColumnName="lenHDCP" />
+                <ScalarProperty Name="BotMask" ColumnName="BotMask" />
+                <ScalarProperty Name="TopMask" ColumnName="TopMask" />
+                <ScalarProperty Name="DelaySetting" ColumnName="DelaySetting" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ModelTypeID" ColumnName="ModelTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_OperationLog">
+            <EntityTypeMapping TypeName="FASModel.FAS_OperationLog">
+              <MappingFragment StoreEntitySet="FAS_OperationLog">
+                <ScalarProperty Name="CASID" ColumnName="CASID" />
+                <ScalarProperty Name="FullSTBSN" ColumnName="FullSTBSN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PCBID" ColumnName="PCBID" />
+                <ScalarProperty Name="ProductionAreaID" ColumnName="ProductionAreaID" />
+                <ScalarProperty Name="StationID" ColumnName="StationID" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="StateCodeDate" ColumnName="StateCodeDate" />
+                <ScalarProperty Name="StateCodeByID" ColumnName="StateCodeByID" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Reprint" ColumnName="Reprint" />
+                <ScalarProperty Name="ReUpload" ColumnName="ReUpload" />
+                <ScalarProperty Name="OldLabelDate" ColumnName="OldLabelDate" />
+                <ScalarProperty Name="SmartCardId" ColumnName="SmartCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_PackingCounter">
+            <EntityTypeMapping TypeName="FASModel.FAS_PackingCounter">
+              <MappingFragment StoreEntitySet="FAS_PackingCounter">
+                <ScalarProperty Name="LitIndex" ColumnName="LitIndex" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PalletCounter" ColumnName="PalletCounter" />
+                <ScalarProperty Name="BoxCounter" ColumnName="BoxCounter" />
+                <ScalarProperty Name="UnitCounter" ColumnName="UnitCounter" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_PackingGS">
+            <EntityTypeMapping TypeName="FASModel.FAS_PackingGS">
+              <MappingFragment StoreEntitySet="FAS_PackingGS">
+                <ScalarProperty Name="RepackingDate" ColumnName="RepackingDate" />
+                <ScalarProperty Name="FullBox" ColumnName="FullBox" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="LiterID" ColumnName="LiterID" />
+                <ScalarProperty Name="LiterIndex" ColumnName="LiterIndex" />
+                <ScalarProperty Name="PalletNum" ColumnName="PalletNum" />
+                <ScalarProperty Name="BoxNum" ColumnName="BoxNum" />
+                <ScalarProperty Name="UnitNum" ColumnName="UnitNum" />
+                <ScalarProperty Name="PackingDate" ColumnName="PackingDate" />
+                <ScalarProperty Name="PackingByID" ColumnName="PackingByID" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_SerialNumbers">
+            <EntityTypeMapping TypeName="FASModel.FAS_SerialNumbers">
+              <MappingFragment StoreEntitySet="FAS_SerialNumbers">
+                <ScalarProperty Name="BlockedPart" ColumnName="BlockedPart" />
+                <ScalarProperty Name="ShipedStatus" ColumnName="ShipedStatus" />
+                <ScalarProperty Name="FixedRange" ColumnName="FixedRange" />
+                <ScalarProperty Name="FixedID" ColumnName="FixedID" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsUploaded" ColumnName="IsUploaded" />
+                <ScalarProperty Name="IsWeighted" ColumnName="IsWeighted" />
+                <ScalarProperty Name="IsPacked" ColumnName="IsPacked" />
+                <ScalarProperty Name="InRepair" ColumnName="InRepair" />
+                <ScalarProperty Name="PrintStationID" ColumnName="PrintStationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_ShiftPlan">
+            <EntityTypeMapping TypeName="FASModel.FAS_ShiftPlan">
+              <MappingFragment StoreEntitySet="FAS_ShiftPlan">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="ShiftPlan" ColumnName="ShiftPlan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_ShiftsCounter">
+            <EntityTypeMapping TypeName="FASModel.FAS_ShiftsCounter">
+              <MappingFragment StoreEntitySet="FAS_ShiftsCounter">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StationID" ColumnName="StationID" />
+                <ScalarProperty Name="ID_App" ColumnName="ID_App" />
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="ShiftCounter" ColumnName="ShiftCounter" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="LOT_Counter" ColumnName="LOT_Counter" />
+                <ScalarProperty Name="PassLOTRes" ColumnName="PassLOTRes" />
+                <ScalarProperty Name="FAilLOTRes" ColumnName="FAilLOTRes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_ShiftsDescription">
+            <EntityTypeMapping TypeName="FASModel.FAS_ShiftsDescription">
+              <MappingFragment StoreEntitySet="FAS_ShiftsDescription">
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="ShiftName" ColumnName="ShiftName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Start">
+            <EntityTypeMapping TypeName="FASModel.FAS_Start">
+              <MappingFragment StoreEntitySet="FAS_Start">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="PCBID" ColumnName="PCBID" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="FullSTBSN" ColumnName="FullSTBSN" />
+                <ScalarProperty Name="ManufDate" ColumnName="ManufDate" />
+                <ScalarProperty Name="AssemblyDate" ColumnName="AssemblyDate" />
+                <ScalarProperty Name="AssemblyByID" ColumnName="AssemblyByID" />
+                <ScalarProperty Name="PrintStationID" ColumnName="PrintStationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Stations">
+            <EntityTypeMapping TypeName="FASModel.FAS_Stations">
+              <MappingFragment StoreEntitySet="FAS_Stations">
+                <ScalarProperty Name="Coordinats" ColumnName="Coordinats" />
+                <ScalarProperty Name="StationID" ColumnName="StationID" />
+                <ScalarProperty Name="StationName" ColumnName="StationName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_TempSerialNumbers1">
+            <EntityTypeMapping TypeName="FASModel.FAS_TempSerialNumbers1">
+              <MappingFragment StoreEntitySet="FAS_TempSerialNumbers1">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+                <ScalarProperty Name="PCB_ID" ColumnName="PCB_ID" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="ManufDate" ColumnName="ManufDate" />
+                <ScalarProperty Name="PrintStationID" ColumnName="PrintStationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Upload">
+            <EntityTypeMapping TypeName="FASModel.FAS_Upload">
+              <MappingFragment StoreEntitySet="FAS_Upload">
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="MAC" ColumnName="MAC" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="SmartCardID" ColumnName="SmartCardID" />
+                <ScalarProperty Name="CASID" ColumnName="CASID" />
+                <ScalarProperty Name="SWversion" ColumnName="SWversion" />
+                <ScalarProperty Name="SWGS1version" ColumnName="SWGS1version" />
+                <ScalarProperty Name="LDS" ColumnName="LDS" />
+                <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+                <ScalarProperty Name="UploadByID" ColumnName="UploadByID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_UserGroup">
+            <EntityTypeMapping TypeName="FASModel.FAS_UserGroup">
+              <MappingFragment StoreEntitySet="FAS_UserGroup">
+                <ScalarProperty Name="UsersGroupID" ColumnName="UsersGroupID" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Users">
+            <EntityTypeMapping TypeName="FASModel.FAS_Users">
+              <MappingFragment StoreEntitySet="FAS_Users">
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RFID" ColumnName="RFID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IsActiv" ColumnName="IsActiv" />
+                <ScalarProperty Name="UsersGroupID" ColumnName="UsersGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_WeightStation">
+            <EntityTypeMapping TypeName="FASModel.FAS_WeightStation">
+              <MappingFragment StoreEntitySet="FAS_WeightStation">
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="STBWeight" ColumnName="STBWeight" />
+                <ScalarProperty Name="WeightDate" ColumnName="WeightDate" />
+                <ScalarProperty Name="WeightByID" ColumnName="WeightByID" />
+                <ScalarProperty Name="Deviation" ColumnName="Deviation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_WorkingScenario">
+            <EntityTypeMapping TypeName="FASModel.FAS_WorkingScenario">
+              <MappingFragment StoreEntitySet="FAS_WorkingScenario">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Scenario" ColumnName="Scenario" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Fixed_RG">
+            <EntityTypeMapping TypeName="FASModel.FAS_Fixed_RG">
+              <MappingFragment StoreEntitySet="FAS_Fixed_RG">
+                <ScalarProperty Name="SN_Count" ColumnName="SN_Count" />
+                <ScalarProperty Name="LabDate" ColumnName="LabDate" />
+                <ScalarProperty Name="RGEnd" ColumnName="RGEnd" />
+                <ScalarProperty Name="RGStart" ColumnName="RGStart" />
+                <ScalarProperty Name="LitIndex" ColumnName="LitIndex" />
+                <ScalarProperty Name="LotID" ColumnName="LotID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ct_StepScan">
+            <EntityTypeMapping TypeName="FASModel.Ct_StepScan">
+              <MappingFragment StoreEntitySet="Ct_StepScan">
+                <ScalarProperty Name="ModelType" ColumnName="ModelType" />
+                <ScalarProperty Name="NumStep" ColumnName="NumStep" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StepName" ColumnName="StepName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Temp_LogUpload">
+            <EntityTypeMapping TypeName="FASModel.FAS_Temp_LogUpload">
+              <MappingFragment StoreEntitySet="FAS_Temp_LogUpload">
+                <ScalarProperty Name="PCBID" ColumnName="PCBID" />
+                <ScalarProperty Name="StageName" ColumnName="StageName" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="SmarCardID" ColumnName="SmarCardID" />
+                <ScalarProperty Name="CASID" ColumnName="CASID" />
+                <ScalarProperty Name="FullSTBSN" ColumnName="FullSTBSN" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ct_OperLog">
+            <EntityTypeMapping TypeName="FASModel.Ct_OperLog">
+              <MappingFragment StoreEntitySet="Ct_OperLog">
+                <ScalarProperty Name="SNID" ColumnName="SNID" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="ErrorCodeID" ColumnName="ErrorCodeID" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="StepByID" ColumnName="StepByID" />
+                <ScalarProperty Name="StepDate" ColumnName="StepDate" />
+                <ScalarProperty Name="TestResultID" ColumnName="TestResultID" />
+                <ScalarProperty Name="StepID" ColumnName="StepID" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="PCBID" ColumnName="PCBID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Bunch_Decode">
+            <EntityTypeMapping TypeName="FASModel.FAS_Bunch_Decode">
+              <MappingFragment StoreEntitySet="FAS_Bunch_Decode">
+                <ScalarProperty Name="FASSNID" ColumnName="FASSNID" />
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PCBIDBOT" ColumnName="PCBIDBOT" />
+                <ScalarProperty Name="PCBIDTOP" ColumnName="PCBIDTOP" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_UploadSetting">
+            <EntityTypeMapping TypeName="FASModel.FAS_UploadSetting">
+              <MappingFragment StoreEntitySet="FAS_UploadSetting">
+                <ScalarProperty Name="CheckStage" ColumnName="CheckStage" />
+                <ScalarProperty Name="DelaySetting" ColumnName="DelaySetting" />
+                <ScalarProperty Name="Name_Stage" ColumnName="Name_Stage" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
